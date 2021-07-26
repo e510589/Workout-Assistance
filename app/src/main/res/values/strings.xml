@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">lupo_trainer</string>
+    <string name="good_night">Good Night!</string>
+    <string name="start">START</string>
+    <string name="personal_service">Service</string>
+    <string name="account_setting">Account Setting</string>
+    <string name="kevin_tsai">KEVIN TSAI</string>
+    <string name="email_sample">q12345@mail.com</string>
+    <string name="service_name_quick_start">Quick Start</string>
+    <string name="service_name_edit_plan">Edit Plan</string>
+    <string name="service_name_new_move">New Move</string>
+</resources>
