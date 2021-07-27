@@ -1,11 +1,18 @@
 package com.lupo.lupo_trainer.main
 
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -14,27 +21,36 @@ import androidx.viewpager2.widget.ViewPager2
 import com.lupo.lupo_trainer.R
 import com.lupo.lupo_trainer.databinding.FragMainBinding
 import com.lupo.lupo_trainer.main.serviceItem.ServiceItem
+import com.lupo.lupo_trainer.newPlan.NewPlanActivity
 
 class MainFragment : Fragment() {
+
+
     /**
      * This property is only valid between onCreateView and onDestroyView.
      * If you don't want to do null checking everytime when you call binding.
      * You can user another object to store the _binding object and assert it
      * as an non-null object by "!!" operator
      */
-
-    companion object{
-        val SERVICE_QUICK_START = 0
-        val SERVICE_EDIT_PLAN = 1
-        val SERVICE_NEW_MOVE = 3
-        val TAG = "MainFragment"
-    }
-
     private var _binding: FragMainBinding? = null
     private val binding get() = _binding!!
 
+    companion object{
+        const val TAG = "MainFragment"
+        const val SERVICE_QUICK_START = 0
+        const val SERVICE_NEW_MOVE = 1
+        const val SERVICE_EDIT_PLAN = 2
+        const val PLAN_TYPE_WEIGHT = "WEIGHT"
+        const val PLAN_TYPE_CARDIO = "CARDIO"
+        val TRAIN_ARRAY= arrayOf("Weight Train","Cardio Train")
+    }
+
     private var serviceList:ArrayList<ServiceItem> = ArrayList()
     private lateinit var viewPager:ViewPager2
+
+    private var activityLauncher = registerForActivityResult(MainActivityResultContract()){
+        //TODO
+    }
 
     private var onServiceClicked:OnServiceClicked = object : OnServiceClicked {
         override fun onClicked(pos: Int) {
@@ -47,10 +63,26 @@ class MainFragment : Fragment() {
                 }
                 SERVICE_NEW_MOVE->{
                     Log.d(TAG,getString(R.string.service_name_new_move) +"clicked")
+
+                    var builder = AlertDialog.Builder(activity).setSingleChoiceItems(TRAIN_ARRAY,0
+                    ) { dialog, which ->
+                        when (which) {
+                            0 -> {
+                                dialog.dismiss()
+                                activityLauncher.launch(PLAN_TYPE_WEIGHT)
+                            }
+                            1 -> {
+
+                            }
+                        }
+                    }
+                    builder.show()
                 }
             }
         }
     }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         serviceList.add(ServiceItem(getString(R.string.service_name_quick_start),R.drawable.quick_start))
@@ -92,6 +124,19 @@ class MainFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+}
 
+class MainActivityResultContract:ActivityResultContract<String,String>(){
+    override fun createIntent(context: Context, input: String?): Intent {
+        val intent = Intent(context,NewPlanActivity::class.java)
+        intent.putExtra(MainFragment.PLAN_TYPE_WEIGHT , input)
+        return intent
+    }
+
+    override fun parseResult(resultCode: Int, intent: Intent?): String? {
+        val data = intent?.getStringExtra("RESULT")
+        return if (resultCode == Activity.RESULT_OK && data != null) data
+        else null
+    }
 }
 

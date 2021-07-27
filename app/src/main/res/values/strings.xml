@@ -8,5 +8,8 @@
     <string name="email_sample">q12345@mail.com</string>
     <string name="service_name_quick_start">Quick Start</string>
     <string name="service_name_edit_plan">Edit Plan</string>
-    <string name="service_name_new_move">New Move</string>
+    <string name="service_name_new_move">New Plan</string>
+    <string name="plan_name">Plan Name</string>
+    <string name="plan_date">Plan Date</string>
+    <string name="confirm">CONFIRM</string>
 </resources>
