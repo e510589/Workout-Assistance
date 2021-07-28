@@ -12,4 +12,5 @@
     <string name="plan_name">Plan Name</string>
     <string name="plan_date">Plan Date</string>
     <string name="confirm">CONFIRM</string>
+    <string name="cancel">CANCEL</string>
 </resources>

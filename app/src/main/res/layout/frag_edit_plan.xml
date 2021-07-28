@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarlayout_edit_plan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/relativelayout_train_set"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <ImageView
+                android:id="@+id/imageview_edit_plan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/_gym"
+                android:scaleType="centerCrop"/>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:title="Title"
+                app:subtitle="@string/plan_date"
+                app:subtitleTextColor="@color/white"
+                app:menu="@menu/edit_plan_toolbar_menu"
+                app:titleTextColor="@color/white"/>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_train_set"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout_edit_plan">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_edit_plan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Filled here with some training set."
+            android:textSize="15sp"
+            android:typeface="serif"/>
+
+    </RelativeLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
