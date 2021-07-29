@@ -3,9 +3,7 @@ package com.lupo.lupo_trainer.main
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -22,9 +20,9 @@ import com.lupo.lupo_trainer.R
 import com.lupo.lupo_trainer.databinding.FragMainBinding
 import com.lupo.lupo_trainer.main.serviceItem.ServiceItem
 import com.lupo.lupo_trainer.newPlan.NewPlanActivity
+import kotlin.math.abs
 
-class MainFragment : Fragment() {
-
+class MainFragment : Fragment(),MainContract.View{
 
     /**
      * This property is only valid between onCreateView and onDestroyView.
@@ -34,6 +32,7 @@ class MainFragment : Fragment() {
      */
     private var _binding: FragMainBinding? = null
     private val binding get() = _binding!!
+    private var mPresenter: MainContract.Presenter? = null
 
     companion object{
         const val TAG = "MainFragment"
@@ -43,6 +42,15 @@ class MainFragment : Fragment() {
         const val PLAN_TYPE_WEIGHT = "WEIGHT"
         const val PLAN_TYPE_CARDIO = "CARDIO"
         val TRAIN_ARRAY= arrayOf("Weight Train","Cardio Train")
+
+        private var instance:MainFragment? = null
+
+        fun getInstance():MainFragment{
+            if (instance == null){
+                instance = MainFragment()
+            }
+            return instance!!
+        }
     }
 
     private var serviceList:ArrayList<ServiceItem> = ArrayList()
@@ -64,7 +72,7 @@ class MainFragment : Fragment() {
                 SERVICE_NEW_MOVE->{
                     Log.d(TAG,getString(R.string.service_name_new_move) +"clicked")
 
-                    var builder = AlertDialog.Builder(activity).setSingleChoiceItems(TRAIN_ARRAY,0
+                    val builder = AlertDialog.Builder(activity).setSingleChoiceItems(TRAIN_ARRAY,0
                     ) { dialog, which ->
                         when (which) {
                             0 -> {
@@ -72,7 +80,8 @@ class MainFragment : Fragment() {
                                 activityLauncher.launch(PLAN_TYPE_WEIGHT)
                             }
                             1 -> {
-
+                                dialog.dismiss()
+                                activityLauncher.launch(PLAN_TYPE_CARDIO)
                             }
                         }
                     }
@@ -110,10 +119,10 @@ class MainFragment : Fragment() {
         viewPager.offscreenPageLimit = 3
         viewPager.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
-        var compositePageTransformer = CompositePageTransformer()
+        val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer(10))
         compositePageTransformer.addTransformer { page, position ->
-            val r:Float = 1-Math.abs(position)
+            val r:Float = 1- abs(position)
             page.scaleY = 0.85f + r*0.15f
         }
         viewPager.setPageTransformer(compositePageTransformer)
@@ -123,6 +132,10 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun setPresenter(presenter: MainContract.Presenter) {
+        this.mPresenter = presenter
     }
 }
 

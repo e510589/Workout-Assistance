@@ -19,6 +19,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_scrollFlags="snap|scroll"
             android:fitsSystemWindows="true">
 
             <ImageView
@@ -29,12 +30,13 @@
                 android:scaleType="centerCrop"/>
 
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/material_toolbar_edit_plan"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:title="Title"
+                app:title="@string/toolbar_title"
                 app:subtitle="@string/plan_date"
                 app:subtitleTextColor="@color/white"
                 app:menu="@menu/edit_plan_toolbar_menu"

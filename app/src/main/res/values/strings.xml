@@ -13,4 +13,5 @@
     <string name="plan_date">Plan Date</string>
     <string name="confirm">CONFIRM</string>
     <string name="cancel">CANCEL</string>
+    <string name="toolbar_title">Title</string>
 </resources>
