@@ -2,10 +2,11 @@ package com.lupo.lupo_trainer.newPlan
 
 import android.util.Log
 import com.lupo.lupo_trainer.utils.data.TrainBase
+import com.lupo.lupo_trainer.utils.data.weightTrain.WeightTrainSet
 
 class TrainListPresenter(mView:TrainListConcract.EditView):TrainListConcract.Presenter {
 
-    private var trainSet = ArrayList<TrainBase>()
+    private var trainSetList = ArrayList<TrainBase>()
 
 
     companion object{
@@ -21,6 +22,6 @@ class TrainListPresenter(mView:TrainListConcract.EditView):TrainListConcract.Pre
     }
 
     override fun getTrainCount(): Int {
-        return 0
+        return trainSetList.size
     }
 }

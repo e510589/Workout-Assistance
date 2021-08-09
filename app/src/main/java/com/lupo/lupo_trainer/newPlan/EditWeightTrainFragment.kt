@@ -30,14 +30,6 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
 
     companion object{
         private const val TAG = "EditWeightTrainFragment"
-
-        private var instance:EditWeightTrainFragment? = null
-        fun getInstance() :EditWeightTrainFragment{
-            if (instance == null){
-                instance = EditWeightTrainFragment()
-            }
-            return instance!!
-        }
     }
 
     private val onMenuItemClicked = object:Toolbar.OnMenuItemClickListener{

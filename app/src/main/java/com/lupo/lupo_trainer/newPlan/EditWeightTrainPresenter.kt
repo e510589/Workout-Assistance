@@ -4,7 +4,7 @@ class EditeWeightTrainPresenter(editeView:EditWeightTrainContract.View):EditWeig
 
 
     companion object{
-        private val TAG = "EditeWeightTrainPresenter"
+        private const val TAG = "EditWeightTrainPresenter"
     }
 
     init {

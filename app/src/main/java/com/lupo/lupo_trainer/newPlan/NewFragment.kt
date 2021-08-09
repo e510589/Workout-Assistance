@@ -31,20 +31,13 @@ class NewFragment : Fragment(),NewPlanContract.NewView{
 
     companion object{
         private const val TAG = "NewFragment"
-
-        private var instance:NewFragment? = null
-        fun getInstance() :NewFragment{
-            if (instance == null){
-                instance = NewFragment()
-            }
-            return instance!!
-        }
     }
 
     private var mPresenter:NewPlanContract.Presenter? = null
 
     private val onButtonClickListener = View.OnClickListener {
         mPresenter?.verifyNameDate(binding.textInputEditNewPlanName.text.toString(),binding.textInputEditNewPlanDate.text.toString(), object: NewPlanContract.OnVerifyCompleteCallback{
+
             override fun onSuccess() {
                 mViewModel.setName(binding.textInputEditNewPlanName.text.toString())
                 mViewModel.setDate(binding.textInputEditNewPlanDate.text.toString())

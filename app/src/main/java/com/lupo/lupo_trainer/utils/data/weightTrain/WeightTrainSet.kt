@@ -37,8 +37,10 @@ data class WeightTrainSet(
     var breakTime:Int,
 
     @ColumnInfo(name ="equip")
-    var equipment:String?
+    var equipment:String?,
 
+    @ColumnInfo(name = "isDone")
+    var isDone:Boolean? = false
 
 ):TrainBase{
     @PrimaryKey(autoGenerate = true)

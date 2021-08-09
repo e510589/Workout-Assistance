@@ -28,14 +28,7 @@ class TrainListFragment() :Fragment(),TrainListConcract.EditView{
     private val mViewModel:NewPlanViewModel by activityViewModels()
 
     companion object{
-        val TAG:String = "TrainListFragment"
-        private var instance:TrainListFragment? = null
-        fun getInstance():TrainListFragment{
-            if (instance == null){
-                instance = TrainListFragment()
-            }
-            return instance!!
-        }
+        private const val TAG = "TrainListFragment"
     }
 
     private var onMenuItemClickListener =
