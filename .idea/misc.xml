@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/drawable/background_clickable_container.xml" value="0.21965811965811965" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.21965811965811965" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/drawable/ic_baseline_save_24.xml" value="0.21965811965811965" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/drawable/shap_item_service_normal.xml" value="0.21965811965811965" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/drawable/shap_item_train_set_press.xml" value="0.21965811965811965" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/drawable/shape_item_save_train_set_normal.xml" value="0.21965811965811965" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/layout/activity_main.xml" value="0.23278985507246377" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/layout/activity_new.xml" value="0.20683760683760682" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/layout/frag_edit_plan.xml" value="0.20854700854700856" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/layout/frag_edit_train_set.xml" value="0.2064102564102564" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/layout/frag_edit_weighttrain_set.xml" value="0.22" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/layout/frag_main.xml" value="0.23278985507246377" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/layout/frag_new_plan.xml" value="0.22" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/layout/frag_train_list.xml" value="0.33" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/layout/item_dropdown_list_muscle.xml" value="0.25" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/menu/edit_train_set_menu.xml" value="0.33" />
+        <entry key="..\:/Users/fc-ts4/AndroidStudioProjects/lupo_trainer/app/src/main/res/menu/train_list_toolbar_menu.xml" value="0.2064102564102564" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

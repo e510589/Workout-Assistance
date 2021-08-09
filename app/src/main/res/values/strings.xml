@@ -14,4 +14,20 @@
     <string name="confirm">CONFIRM</string>
     <string name="cancel">CANCEL</string>
     <string name="toolbar_title">Title</string>
+    <string name="current_plan_will_be_cancel">Current plan will be cancel!</string>
+    <string name="moves_name">Moves Name</string>
+    <string name="muscles">Muscles</string>
+    <string name="times">Times</string>
+    <string name="weight_set">Weight Set</string>
+    <string name="break_time">Break Time</string>
+    <string name="equipment">Equipment</string>
+
+    <string-array name="muscles_list">
+        <item>CHEST</item>
+        <item>BACK</item>
+        <item>ARMS</item>
+        <item>ABDOMINALS</item>
+        <item>LEG</item>
+        <item>SHOULDERS</item>
+    </string-array>
 </resources>

@@ -9,4 +9,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="ToolBarStyle" parent="">
+        <item name="titleTextAppearance">@style/TextAppearance.Widget.Event.Toolbar.Title</item>
+    </style>
+
+    <style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:typeface">normal</item>
+    </style>
+
 </resources>

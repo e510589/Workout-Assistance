@@ -11,7 +11,8 @@
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
         <activity
             android:name=".main.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
 
                 <action android:name="android.intent.action.MAIN"/>
@@ -22,7 +23,8 @@
         </activity>
         <activity
             android:name=".newPlan.NewPlanActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
 
         </activity>
     </application>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.lupo.lupo_trainer.utils.data.TrainBase
 
 @Entity(tableName = "CardioTrainList")
 data class CardioTrainSet(
@@ -41,4 +42,4 @@ data class CardioTrainSet(
 
 
 
-)
+):TrainBase

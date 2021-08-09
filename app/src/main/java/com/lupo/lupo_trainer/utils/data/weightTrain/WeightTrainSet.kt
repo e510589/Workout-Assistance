@@ -4,13 +4,10 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.lupo.lupo_trainer.utils.data.TrainBase
 
 @Entity(tableName = "WeightTrainList")
 data class WeightTrainSet(
-
-    @NonNull
-    @ColumnInfo(name = "target")
-    var target:String,
 
     @ColumnInfo(name = "listName")
     var listName:String?,
@@ -43,7 +40,7 @@ data class WeightTrainSet(
     var equipment:String?
 
 
-){
+):TrainBase{
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id:Int? = 0

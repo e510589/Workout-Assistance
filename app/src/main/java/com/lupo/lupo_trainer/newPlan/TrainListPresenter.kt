@@ -1,8 +1,11 @@
 package com.lupo.lupo_trainer.newPlan
 
 import android.util.Log
+import com.lupo.lupo_trainer.utils.data.TrainBase
 
-class EditPresenter(mView:EditConcract.EditView):EditConcract.Presenter {
+class TrainListPresenter(mView:TrainListConcract.EditView):TrainListConcract.Presenter {
+
+    private var trainSet = ArrayList<TrainBase>()
 
 
     companion object{
@@ -15,5 +18,9 @@ class EditPresenter(mView:EditConcract.EditView):EditConcract.Presenter {
 
     override fun start() {
         Log.d(TAG, "start: presenter call fun start()")
+    }
+
+    override fun getTrainCount(): Int {
+        return 0
     }
 }

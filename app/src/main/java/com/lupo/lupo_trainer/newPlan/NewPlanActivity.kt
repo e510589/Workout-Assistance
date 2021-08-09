@@ -1,76 +1,140 @@
 package com.lupo.lupo_trainer.newPlan
 
+import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
+import android.os.PersistableBundle
+import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.*
 import com.lupo.lupo_trainer.R
 
-class NewPlanActivity : AppCompatActivity(),OnNameDateComplete, OnTrainSetEditComplete {
+class NewPlanActivity : AppCompatActivity(),IFragmentCallBack {
 
     private var mNewPresenter:NewPlanPresenter?=null
-    private var mEditPresenter:EditPresenter?= null
+    private var mTrainListPresenter:TrainListPresenter?= null
+    private var mEditeWeightTrainPresenter:EditeWeightTrainPresenter? = null
 
+    companion object{
+        const val TAG = "NewPlanActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new)
+        val newFragment = NewFragment()
         if(savedInstanceState == null) {
-            supportFragmentManager.fragmentFactory = MyFragmentFactory()
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<NewFragment>(R.id.fragment_container_view_new_plan)
+                add(R.id.fragment_container_view_new_plan,newFragment)
             }
-            mNewPresenter = NewPlanPresenter(NewFragment.getInstance())
+            mNewPresenter = NewPlanPresenter(newFragment)
         }
     }
 
-
-    override fun onPlanInitialComplete(planName: String, planDate: String) {
-        var map = HashMap<String,String>()
-        map.put("N",planName)
-        map.put("D",planDate)
-        val bundle = bundleOf("MAP" to map)
+    override fun onNameDateConfirm(planName: String, planDate: String) {
+//        var map = HashMap<String,String>()
+//        map.put("N",planName)
+//        map.put("D",planDate)
+//        val bundle = bundleOf("MAP" to map)
+        val trainListFragment = TrainListFragment()
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace<EditPlanFragment>(R.id.fragment_container_view_new_plan,args = bundle)
+            replace(R.id.fragment_container_view_new_plan,trainListFragment)
         }
-        mEditPresenter = EditPresenter(EditPlanFragment.getInstance())
+        mTrainListPresenter = TrainListPresenter(trainListFragment)
+    }
+
+    override fun onNameDateSetCancel() {
+        supportFragmentManager.popBackStack()
+        finish()
+    }
+
+    override fun onNewPlanFinished() {
+        supportFragmentManager.popBackStack()
+        finish()
+    }
+
+    override fun onAddTrainSet(name:String,date:String) {
+//        var map = HashMap<String,String>()
+//        map.put("N",name)
+//        map.put("D",date)
+//        val bundle = bundleOf("MAP" to map)
+        val weightSetFragment = EditWeightTrainFragment()
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.fragment_container_view_new_plan,weightSetFragment)
+            addToBackStack(null)
+        }
+        mEditeWeightTrainPresenter = EditeWeightTrainPresenter(weightSetFragment)
+    }
+
+    override fun onTrainSetEditConfirm() {
 
     }
 
-    override fun onTrainSetComplete() {
-        TODO("Not yet implemented")
+    override fun onTrainSetEditCancel() {
+        supportFragmentManager.popBackStack()
     }
 
-    override fun onCancel() {
-        TODO("Not yet implemented")
-    }
-}
-
-private class MyFragmentFactory() : FragmentFactory() {
-
-    override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-        return when (loadFragmentClass(classLoader, className)) {
-            NewFragment::class.java -> {
-                NewFragment.getInstance()
+    override fun onBackPressed() {
+//        super.onBackPressed()
+        val fragmentSize =supportFragmentManager.fragments.size
+        when {
+            supportFragmentManager.fragments[fragmentSize-1] is NewFragment -> {
+                Log.d(TAG,"Back key pressed on NewFragment")
+                onTrainSetEditCancel()
             }
-            EditPlanFragment::class.java ->{
-                EditPlanFragment.getInstance()
+            supportFragmentManager.fragments[fragmentSize-1] is TrainListFragment -> {
+                Log.d(TAG,"Back key pressed on TrainListFragment")
+                onNewPlanFinished()
             }
-            else -> {
-                super.instantiate(classLoader, className)
+            supportFragmentManager.fragments[fragmentSize-1] is EditWeightTrainFragment -> {
+                Log.d(TAG,"Back key pressed on EditWeightTrainFragment")
+                onTrainSetEditCancel()
             }
         }
     }
 }
 
-interface OnNameDateComplete{
-    fun onPlanInitialComplete(planName:String,planDate:String)
-}
+//private class MyFragmentFactory() : FragmentFactory() {
+//
+//    override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+//        return when (loadFragmentClass(classLoader, className)) {
+//            NewFragment::class.java -> {
+//                NewFragment.getInstance()
+//            }
+//            TrainListFragment::class.java ->{
+//                TrainListFragment.getInstance()
+//            }
+//            EditWeightTrainFragment::class.java ->{
+//                EditWeightTrainFragment.getInstance()
+//            }
+//            else -> {
+//                super.instantiate(classLoader, className)
+//            }
+//        }
+//    }
+//}
 
-interface OnTrainSetEditComplete{
-    fun onTrainSetComplete()
-    fun onCancel()
+interface IFragmentCallBack{
+    /**
+     * Call by NewPlanFragment.
+     */
+    fun onNameDateConfirm(planName:String,planDate:String)
+    fun onNameDateSetCancel()
+
+    /**
+     * Call by TrainlistFragment.
+     */
+    fun onNewPlanFinished()
+    fun onAddTrainSet(name:String,date:String)
+
+    /**
+     * Call by EditeTrainFragment
+     */
+    fun onTrainSetEditConfirm()
+    fun onTrainSetEditCancel()
 }
