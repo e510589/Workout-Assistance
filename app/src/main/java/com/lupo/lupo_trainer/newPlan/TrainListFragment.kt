@@ -10,9 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import com.lupo.lupo_trainer.R
 import com.lupo.lupo_trainer.databinding.FragTrainListBinding
 
@@ -28,6 +30,10 @@ class TrainListFragment() :Fragment(),TrainListConcract.EditView{
     private val mViewModel:NewPlanViewModel by activityViewModels()
 
     companion object{
+        const val RESULT_KEY = "TrainListFragment_KEY"
+        const val RESULT_BUNDLE_KEY = "BUNDLE_KEY"
+        const val RESULT_CANCEL = "SET_CANCEL"
+        const val RESULT_SET_DONE = "SET_DONE"
         private const val TAG = "TrainListFragment"
     }
 
@@ -45,7 +51,8 @@ class TrainListFragment() :Fragment(),TrainListConcract.EditView{
                                 dialog?.dismiss()
                                 _activity.onNewPlanFinished()
                             }
-                        }).show()
+                        })
+                        dialog.show()
 
                     }else if(count > 0){
                         val dialog = AlertDialog.Builder(activity).setMessage("The new plan will be saved properly.\n Clicked confirm button to leave this page.").
@@ -54,14 +61,15 @@ class TrainListFragment() :Fragment(),TrainListConcract.EditView{
                                 dialog?.dismiss()
                                 _activity.onNewPlanFinished()
                             }
-                        }).show()
+                        })
+                        dialog.show()
                     }
                     true
                 }
                 R.id.new_set->{
                     Log.d(TAG,"new set clicked")
                     val _activity = activity as NewPlanActivity
-                    _activity.onAddTrainSet(planName,planDate)
+                    _activity.onAddTrainSet()
                     true
                 }
                 else->{
@@ -75,9 +83,23 @@ class TrainListFragment() :Fragment(),TrainListConcract.EditView{
         mPresenter?.start()
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG,"onCreate")
+        setFragmentResultListener(RESULT_KEY){
+            requestKey, bundle ->
+            val result = bundle.getString(RESULT_BUNDLE_KEY)
+            when(result){
+                RESULT_CANCEL ->{
+                    Toast.makeText(activity,"Edit has been canceled.",Toast.LENGTH_LONG).show()
+                }
+                RESULT_SET_DONE ->{
+                    Toast.makeText(activity,"Edit set done.",Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -98,6 +120,8 @@ class TrainListFragment() :Fragment(),TrainListConcract.EditView{
         binding.materialToolbarTrainList.setOnMenuItemClickListener(onMenuItemClickListener)
         return rootView
     }
+
+
 
     override fun onStart() {
         super.onStart()

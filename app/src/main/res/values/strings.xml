@@ -21,6 +21,8 @@
     <string name="weight_set">Weight Set</string>
     <string name="break_time">Break Time</string>
     <string name="equipment">Equipment</string>
+    <string name="cardio_moves_name">Cardio Moves Name</string>
+    <string name="trainning_type">Trainning Type</string>
 
     <string-array name="muscles_list">
         <item>CHEST</item>
@@ -29,5 +31,10 @@
         <item>ABDOMINALS</item>
         <item>LEG</item>
         <item>SHOULDERS</item>
+    </string-array>
+
+    <string-array name="trainTypes">
+        <item>Weight Trainning</item>
+        <item>Cardio Trainning</item>
     </string-array>
 </resources>

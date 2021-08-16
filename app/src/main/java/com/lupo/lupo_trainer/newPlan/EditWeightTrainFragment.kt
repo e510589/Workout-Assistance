@@ -12,11 +12,12 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import com.lupo.lupo_trainer.R
 import com.lupo.lupo_trainer.databinding.FragEditWeighttrainSetBinding
-import java.lang.NumberFormatException
 
 class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
 
@@ -27,6 +28,8 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
     private lateinit var planName:String
     private lateinit var planDate:String
     private val mViewModel:NewPlanViewModel by activityViewModels()
+    private lateinit var muscles:Array<String>
+    private lateinit var types:Array<String>
 
     companion object{
         private const val TAG = "EditWeightTrainFragment"
@@ -37,31 +40,69 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
             when(item?.itemId){
                 R.id.save_set->{
 
-                    mPresenter?.saveWeightChange(
-                        planName,
-                        planDate,
-                        binding.autoCompletetextviewMuscles.text.toString(),
-                        binding.textInputEditMoveName.text.toString(),
-                        binding.textInputEditMoveTimes.text.toString(),
-                        binding.textInputEditBreaksTime.text.toString(),
-                        binding.textInputEditEquip.text.toString(),
-                        binding.textInputEditWeightSet.text.toString(),
-                        object:OnSaveTrainSetCallBack{
-                            override fun onSaved() {
-                                Toast.makeText(activity,"Weight Set will be saved.",Toast.LENGTH_LONG).show()
-                            }
+                    when(binding.autoCompletetextviewTraintype.text.toString()){
 
-                            override fun onSetNotAvailable(msg: String) {
-                                Toast.makeText(activity,msg,Toast.LENGTH_LONG).show()
-                            }
-                        })
+                        types.get(0)->{
+                            mPresenter?.verifyWeightSet(
+                                planName,
+                                planDate,
+                                binding.autoCompletetextviewMuscles.text.toString(),
+                                binding.textInputEditMoveName.text.toString(),
+                                binding.textInputEditMoveTimes.text.toString(),
+                                binding.textInputEditBreaksTime.text.toString(),
+                                binding.textInputEditEquip.text.toString(),
+                                binding.textInputEditWeightSet.text.toString(),
+                                object:OnSaveTrainSetCallBack{
+                                    override fun onSaved() {
+                                        Toast.makeText(activity,"Train Set will be saved.",Toast.LENGTH_LONG).show()
+                                        setFragmentResult(TrainListFragment.RESULT_KEY,
+                                            bundleOf(TrainListFragment.RESULT_BUNDLE_KEY to TrainListFragment.RESULT_SET_DONE))
+                                        val _activity = activity as NewPlanActivity
+                                        _activity.onTrainSetEditDone()
+                                    }
+
+                                    override fun onSetNotAvailable(msg: String) {
+                                        Toast.makeText(activity,msg,Toast.LENGTH_LONG).show()
+                                    }
+                                })
+                        }
+                        types.get(1)->{
+                            mPresenter?.verifyCardioSet(
+                                planName,
+                                planDate,
+                                binding.textInputEditMoveName.text.toString(),
+                                binding.textInputEditMoveTimes.text.toString(),
+                                binding.textInputEditEquip.text.toString(),
+                                object:OnSaveTrainSetCallBack{
+                                    override fun onSaved() {
+                                        Toast.makeText(activity,"Train Set will be saved.",Toast.LENGTH_LONG).show()
+                                        setFragmentResult(TrainListFragment.RESULT_KEY,
+                                            bundleOf(TrainListFragment.RESULT_BUNDLE_KEY to TrainListFragment.RESULT_SET_DONE))
+                                        val _activity = activity as NewPlanActivity
+                                        _activity.onTrainSetEditDone()
+                                    }
+
+                                    override fun onSetNotAvailable(msg: String) {
+                                        Toast.makeText(activity,msg,Toast.LENGTH_LONG).show()
+                                    }
+                                })
+
+
+                        }
+
+                    }
+
+
 
                     return true
                 }
                 R.id.cancel_train_set->{
 
+                    setFragmentResult(TrainListFragment.RESULT_KEY,
+                        bundleOf(TrainListFragment.RESULT_BUNDLE_KEY to TrainListFragment.RESULT_CANCEL))
+
                     val _activity = activity as NewPlanActivity
-                    _activity.onTrainSetEditCancel()
+                    _activity.onTrainSetEditDone()
 
                     return true
                 }
@@ -72,9 +113,13 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
         }
     }
 
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.d(TAG,"onAttach")
+        muscles = resources.getStringArray(R.array.muscles_list)
+        types = resources.getStringArray(R.array.trainTypes)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,9 +135,32 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
 
         _binding = FragEditWeighttrainSetBinding.inflate(inflater,container,false)
         val rootView = binding.root
-        val muscles = resources.getStringArray(R.array.muscles_list)
-        val arrayAdapter = ArrayAdapter(requireContext(),R.layout.item_dropdown_list_muscle,muscles)
-        binding.autoCompletetextviewMuscles.setAdapter(arrayAdapter)
+        val musAdapter = ArrayAdapter(requireContext(),R.layout.item_dropdown_list_muscle,muscles)
+        binding.autoCompletetextviewMuscles.setAdapter(musAdapter)
+
+        val typeAdapter = ArrayAdapter(requireContext(),R.layout.item_dropdown_list_traintypes,types)
+        binding.autoCompletetextviewTraintype.setAdapter(typeAdapter)
+        binding.autoCompletetextviewTraintype.setText(typeAdapter.getItem(0).toString(),false)
+        binding.autoCompletetextviewTraintype.setOnItemClickListener { parent, view, position, id ->
+            when(position){
+                0->{
+                    Log.d(TAG,typeAdapter.getItem(0).toString() + " clicked!")
+                    binding.relativelayoutEditMuscles.visibility = View.VISIBLE
+                    binding.relativelayoutEditBreaksTime.visibility = View.VISIBLE
+                    binding.relativelayoutEditWeightSet.visibility = View.VISIBLE
+                }
+                1->{
+                    Log.d(TAG,typeAdapter.getItem(1).toString() + " clicked!")
+                    binding.relativelayoutEditMuscles.visibility = View.GONE
+                    binding.relativelayoutEditBreaksTime.visibility = View.GONE
+                    binding.relativelayoutEditWeightSet.visibility = View.GONE
+                }
+                else->{
+
+                }
+            }
+        }
+
         binding.materialtoolbarEditTrain.changeToolbarFont()
         binding.materialtoolbarEditTrain.setOnMenuItemClickListener(onMenuItemClicked)
 //        val map = requireArguments().get("MAP")!! as HashMap<String,String>

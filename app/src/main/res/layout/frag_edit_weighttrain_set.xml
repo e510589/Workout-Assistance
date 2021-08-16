@@ -28,7 +28,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <ScrollView
         android:id="@+id/scrowview_weighttrain_set"
         android:layout_width="0dp"
@@ -42,8 +41,33 @@
             android:id="@+id/linearlayout_weighttrain_set"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_edit_traintype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_input_layout_traintype"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/trainning_type"
+                    android:padding="15dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/autoCompletetextview_traintype"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:typeface="serif"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+
+
 
             <RelativeLayout
                 android:id="@+id/relativelayout_edit_muscles"
@@ -62,7 +86,7 @@
                         android:id="@+id/autoCompletetextview_muscles"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
+                        android:inputType="none"
                         android:typeface="serif" />
 
                 </com.google.android.material.textfield.TextInputLayout>

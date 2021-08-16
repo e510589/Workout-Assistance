@@ -8,12 +8,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.Interpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.snackbar.Snackbar
@@ -42,13 +47,12 @@ class NewFragment : Fragment(),NewPlanContract.NewView{
                 mViewModel.setName(binding.textInputEditNewPlanName.text.toString())
                 mViewModel.setDate(binding.textInputEditNewPlanDate.text.toString())
                 val _activity = activity as NewPlanActivity
-                _activity.onNameDateConfirm(binding.textInputEditNewPlanName.text.toString(),binding.textInputEditNewPlanDate.text.toString())
+                _activity.onNameDateConfirm()
             }
 
             override fun onNameVerifiedFailed() {
                 Log.d(TAG,"plan name not specified")
                 Toast.makeText(activity,"Plan name required!", Toast.LENGTH_SHORT).show()
-//                Snackbar.make(binding.constrainlayoutNewPlan,"Plan name required!",Snackbar.LENGTH_SHORT).show()
             }
 
             override fun onDateVerifiedFailed() {
@@ -78,28 +82,6 @@ class NewFragment : Fragment(),NewPlanContract.NewView{
         datePickerDialog.show()
     }
 
-    private val onFocusChangeListener = object : View.OnFocusChangeListener{
-        override fun onFocusChange(v: View?, hasFocus: Boolean) {
-            if (hasFocus){
-                val c = Calendar.getInstance()
-                val year = c.get(Calendar.YEAR)
-                val month = c.get(Calendar.MONTH)
-                val day = c.get(Calendar.DAY_OF_MONTH)
-                val datePickerDialog = DatePickerDialog(this@NewFragment.requireContext(),object:DatePickerDialog.OnDateSetListener{
-                    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                        var _month = month+1
-                        val text = "$year/$_month/$dayOfMonth"
-                        binding.textInputEditNewPlanDate.setText(text)
-
-                    }
-                },year,month,day)
-                datePickerDialog.show()
-
-            }
-        }
-
-    }
-
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -111,7 +93,29 @@ class NewFragment : Fragment(),NewPlanContract.NewView{
         val rootView = binding.root
         binding.buttonConfirmNewPlan.setOnClickListener(onButtonClickListener)
         binding.textInputEditNewPlanDate.setOnClickListener(onDateEditorClickListener)
+//        viewFadeIn(binding.constrainlayoutNewPlan)
         return rootView
+    }
+
+    private fun viewFadeIn(view:View){
+        val fadeIn = AlphaAnimation(0f,1f)
+        fadeIn.interpolator = AccelerateInterpolator()
+        fadeIn.duration = 1500
+
+        fadeIn.setAnimationListener(object:Animation.AnimationListener{
+            override fun onAnimationStart(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                binding.constrainlayoutNewPlan.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+        })
+
+        view.startAnimation(fadeIn)
+
     }
 
     override fun setPresenter(presenter: NewPlanContract.Presenter) {

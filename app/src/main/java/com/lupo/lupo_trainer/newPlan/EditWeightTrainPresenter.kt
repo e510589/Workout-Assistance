@@ -15,7 +15,7 @@ class EditeWeightTrainPresenter(editeView:EditWeightTrainContract.View):EditWeig
 
     }
 
-    override fun saveWeightChange(
+    override fun verifyWeightSet(
         planName: String,
         dateTime: String,
         muscles: String,
@@ -42,7 +42,25 @@ class EditeWeightTrainPresenter(editeView:EditWeightTrainContract.View):EditWeig
 
     }
 
-    fun checkWeightSet(times:Int , weightSet:String):Boolean{
+    override fun verifyCardioSet(
+        planName: String,
+        dateTime: String,
+        movesName: String,
+        times: String,
+        equip: String,
+        callBack: OnSaveTrainSetCallBack
+    ) {
+        if(movesName =="" || times == "" || equip == ""){
+            callBack.onSetNotAvailable("Please filled all the data page.")
+            return
+        }else{
+            val time = times.toInt()
+            callBack.onSaved()
+        }
+
+    }
+
+    fun checkWeightSet(times:Int, weightSet:String):Boolean{
 
         var dashCount = 0;
         for ( c in weightSet){

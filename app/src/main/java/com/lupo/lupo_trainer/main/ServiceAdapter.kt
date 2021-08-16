@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.lupo.lupo_trainer.R
 import com.lupo.lupo_trainer.main.serviceItem.ServiceItem
@@ -26,6 +27,7 @@ class ServiceAdapter(serviceList:ArrayList<ServiceItem>, onServiceViewClicked: O
             imageView = itemView.findViewById(R.id.imageview_service)
             textView = itemView.findViewById(R.id.textview_name_serivce)
             container = itemView.findViewById(R.id.constrainlayout_sservice)
+            ViewCompat.setTransitionName(container,"constrainlayout_sservice")
         }
     }
 
@@ -45,14 +47,14 @@ class ServiceAdapter(serviceList:ArrayList<ServiceItem>, onServiceViewClicked: O
         holder.textView.setText(service_list.get(position).serviceName)
         holder.imageView.setImageResource(service_list.get(position).serviceIconSource)
         holder.container.setOnClickListener {
-            onServiceViewClicked.onClicked(position)
+            onServiceViewClicked.onClicked(position,holder.container)
         }
     }
 }
 
 interface OnServiceClicked{
 
-    fun onClicked(pos:Int)
+    fun onClicked(pos:Int, sharedView:View)
 
 }
 

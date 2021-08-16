@@ -9,6 +9,10 @@ import com.lupo.lupo_trainer.utils.data.TrainBase
 @Entity(tableName = "WeightTrainList")
 data class WeightTrainSet(
 
+    @NonNull
+    @ColumnInfo(name = "trainType")
+    val trainType:Int,
+
     @ColumnInfo(name = "listName")
     var listName:String?,
 
@@ -16,9 +20,8 @@ data class WeightTrainSet(
     @ColumnInfo(name = "date")
     var date:String,
 
-    @NonNull
     @ColumnInfo(name = "muscles")
-    var muscles:String,
+    var muscles:String?,
 
     @NonNull
     @ColumnInfo(name = "movesName")
@@ -28,19 +31,20 @@ data class WeightTrainSet(
     @ColumnInfo(name = "times")
     var times:Int,
 
-    @NonNull
+
     @ColumnInfo(name = "weightSets")
-    var weightSet:String,
+    var weightSet:String?,
+
+    @ColumnInfo(name = "breakTime")
+    var breakTime:Int?,
 
     @NonNull
-    @ColumnInfo(name = "breakTime")
-    var breakTime:Int,
-
     @ColumnInfo(name ="equip")
     var equipment:String?,
 
+    @NonNull
     @ColumnInfo(name = "isDone")
-    var isDone:Boolean? = false
+    var isDone:Boolean = false
 
 ):TrainBase{
     @PrimaryKey(autoGenerate = true)

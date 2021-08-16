@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_clickable_container"
-    android:clickable="true">
+    android:clickable="true"
+    android:transitionName="service_trainsition">
 
     <ImageView
         android:id="@+id/imageview_service"
@@ -19,7 +20,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.40"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <TextView
         android:id="@+id/textview_name_serivce"

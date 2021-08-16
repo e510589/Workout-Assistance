@@ -12,7 +12,8 @@ interface EditWeightTrainContract {
 
     interface Presenter : BasePresenter{
 
-        fun saveWeightChange(planName:String,dateTime:String,muscles:String,movesName:String,times:String,breakTime:String,equip:String,weightSet:String,callBack: OnSaveTrainSetCallBack)
+        fun verifyWeightSet(planName:String, dateTime:String, muscles:String, movesName:String, times:String, breakTime:String, equip:String, weightSet:String, callBack: OnSaveTrainSetCallBack)
+        fun verifyCardioSet(planName:String, dateTime:String, movesName:String,times:String,equip:String,callBack: OnSaveTrainSetCallBack)
 
     }
 

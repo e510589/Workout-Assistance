@@ -2,6 +2,7 @@ package com.lupo.lupo_trainer.main
 
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -18,6 +20,8 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.lupo.lupo_trainer.R
 import com.lupo.lupo_trainer.databinding.FragMainBinding
+import com.lupo.lupo_trainer.main.MainFragment.Companion.BUNDLE_KEY
+import com.lupo.lupo_trainer.main.MainFragment.Companion.INTENT_KEY
 import com.lupo.lupo_trainer.main.serviceItem.ServiceItem
 import com.lupo.lupo_trainer.newPlan.NewPlanActivity
 import kotlin.math.abs
@@ -39,8 +43,10 @@ class MainFragment : Fragment(),MainContract.View{
         const val SERVICE_QUICK_START = 0
         const val SERVICE_NEW_MOVE = 1
         const val SERVICE_EDIT_PLAN = 2
-        const val PLAN_TYPE_WEIGHT = "WEIGHT"
-        const val PLAN_TYPE_CARDIO = "CARDIO"
+        const val INTENT_KEY = "get_bundle"
+        const val BUNDLE_KEY = "get_view"
+//        const val PLAN_TYPE_WEIGHT = "WEIGHT"
+//        const val PLAN_TYPE_CARDIO = "CARDIO"
         val TRAIN_ARRAY= arrayOf("Weight Train","Cardio Train")
 
         private var instance:MainFragment? = null
@@ -56,12 +62,14 @@ class MainFragment : Fragment(),MainContract.View{
     private var serviceList:ArrayList<ServiceItem> = ArrayList()
     private lateinit var viewPager:ViewPager2
 
-    private var activityLauncher = registerForActivityResult(MainActivityResultContract()){
-        //TODO
+    private var activityLauncher = registerForActivityResult(_MainActivityResultContract()){
+        /**
+         * Refresh the view and check if today has activities.
+         */
     }
 
     private var onServiceClicked:OnServiceClicked = object : OnServiceClicked {
-        override fun onClicked(pos: Int) {
+        override fun onClicked(pos: Int, sharedView: View) {
             when(pos){
                 SERVICE_QUICK_START ->{
                     Log.d(TAG,getString(R.string.service_name_quick_start) +"clicked")
@@ -72,20 +80,26 @@ class MainFragment : Fragment(),MainContract.View{
                 SERVICE_NEW_MOVE->{
                     Log.d(TAG,getString(R.string.service_name_new_move) +"clicked")
 
-                    val builder = AlertDialog.Builder(activity).setSingleChoiceItems(TRAIN_ARRAY,0
-                    ) { dialog, which ->
-                        when (which) {
-                            0 -> {
-                                dialog.dismiss()
-                                activityLauncher.launch(PLAN_TYPE_WEIGHT)
-                            }
-                            1 -> {
-                                dialog.dismiss()
-                                activityLauncher.launch(PLAN_TYPE_CARDIO)
-                            }
-                        }
-                    }
-                    builder.show()
+                    val intent = Intent(activity,NewPlanActivity::class.java)
+                    val optios = ActivityOptions.makeSceneTransitionAnimation(activity,sharedView,"service_trainsition")
+                    activity?.startActivity(intent,optios.toBundle())
+
+//                    activityLauncher.launch(sharedView)
+
+//                    val builder = AlertDialog.Builder(activity).setSingleChoiceItems(TRAIN_ARRAY,0
+//                    ) { dialog, which ->
+//                        when (which) {
+//                            0 -> {
+//                                dialog.dismiss()
+//                                activityLauncher.launch(PLAN_TYPE_WEIGHT)
+//                            }
+//                            1 -> {
+//                                dialog.dismiss()
+//                                activityLauncher.launch(PLAN_TYPE_CARDIO)
+//                            }
+//                        }
+//                    }
+//                    builder.show()
                 }
             }
         }
@@ -126,7 +140,11 @@ class MainFragment : Fragment(),MainContract.View{
             page.scaleY = 0.85f + r*0.15f
         }
         viewPager.setPageTransformer(compositePageTransformer)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG,"onResume")
     }
 
     override fun onDestroyView() {
@@ -139,10 +157,13 @@ class MainFragment : Fragment(),MainContract.View{
     }
 }
 
-class MainActivityResultContract:ActivityResultContract<String,String>(){
-    override fun createIntent(context: Context, input: String?): Intent {
+
+class _MainActivityResultContract:ActivityResultContract<View,String>(){
+    override fun createIntent(context: Context, input: View?): Intent {
         val intent = Intent(context,NewPlanActivity::class.java)
-        intent.putExtra(MainFragment.PLAN_TYPE_WEIGHT , input)
+        val bundle = bundleOf(BUNDLE_KEY to input)
+
+        intent.putExtra(INTENT_KEY,bundle)
         return intent
     }
 
@@ -152,4 +173,19 @@ class MainActivityResultContract:ActivityResultContract<String,String>(){
         else null
     }
 }
+
+
+//class MainActivityResultContract:ActivityResultContract<String,String>(){
+//    override fun createIntent(context: Context, input: String?): Intent {
+//        val intent = Intent(context,NewPlanActivity::class.java)
+//        intent.putExtra(MainFragment.PLAN_TYPE_WEIGHT , input)
+//        return intent
+//    }
+//
+//    override fun parseResult(resultCode: Int, intent: Intent?): String? {
+//        val data = intent?.getStringExtra("RESULT")
+//        return if (resultCode == Activity.RESULT_OK && data != null) data
+//        else null
+//    }
+//}
 

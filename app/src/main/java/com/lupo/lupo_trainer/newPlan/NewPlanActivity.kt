@@ -1,15 +1,12 @@
 package com.lupo.lupo_trainer.newPlan
 
-import android.content.Context
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.*
 import com.lupo.lupo_trainer.R
+import com.lupo.lupo_trainer.main.MainFragment
 
 class NewPlanActivity : AppCompatActivity(),IFragmentCallBack {
 
@@ -34,13 +31,14 @@ class NewPlanActivity : AppCompatActivity(),IFragmentCallBack {
         }
     }
 
-    override fun onNameDateConfirm(planName: String, planDate: String) {
-//        var map = HashMap<String,String>()
-//        map.put("N",planName)
-//        map.put("D",planDate)
-//        val bundle = bundleOf("MAP" to map)
+    override fun onNameDateConfirm() {
         val trainListFragment = TrainListFragment()
         supportFragmentManager.commit {
+            setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out)
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view_new_plan,trainListFragment)
         }
@@ -57,13 +55,14 @@ class NewPlanActivity : AppCompatActivity(),IFragmentCallBack {
         finish()
     }
 
-    override fun onAddTrainSet(name:String,date:String) {
-//        var map = HashMap<String,String>()
-//        map.put("N",name)
-//        map.put("D",date)
-//        val bundle = bundleOf("MAP" to map)
+    override fun onAddTrainSet() {
         val weightSetFragment = EditWeightTrainFragment()
         supportFragmentManager.commit {
+            setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out)
             setReorderingAllowed(true)
             add(R.id.fragment_container_view_new_plan,weightSetFragment)
             addToBackStack(null)
@@ -71,11 +70,7 @@ class NewPlanActivity : AppCompatActivity(),IFragmentCallBack {
         mEditeWeightTrainPresenter = EditeWeightTrainPresenter(weightSetFragment)
     }
 
-    override fun onTrainSetEditConfirm() {
-
-    }
-
-    override fun onTrainSetEditCancel() {
+    override fun onTrainSetEditDone() {
         supportFragmentManager.popBackStack()
     }
 
@@ -85,7 +80,7 @@ class NewPlanActivity : AppCompatActivity(),IFragmentCallBack {
         when {
             supportFragmentManager.fragments[fragmentSize-1] is NewFragment -> {
                 Log.d(TAG,"Back key pressed on NewFragment")
-                onTrainSetEditCancel()
+                onNameDateSetCancel()
             }
             supportFragmentManager.fragments[fragmentSize-1] is TrainListFragment -> {
                 Log.d(TAG,"Back key pressed on TrainListFragment")
@@ -93,7 +88,7 @@ class NewPlanActivity : AppCompatActivity(),IFragmentCallBack {
             }
             supportFragmentManager.fragments[fragmentSize-1] is EditWeightTrainFragment -> {
                 Log.d(TAG,"Back key pressed on EditWeightTrainFragment")
-                onTrainSetEditCancel()
+                onTrainSetEditDone()
             }
         }
     }
@@ -123,18 +118,17 @@ interface IFragmentCallBack{
     /**
      * Call by NewPlanFragment.
      */
-    fun onNameDateConfirm(planName:String,planDate:String)
+    fun onNameDateConfirm()
     fun onNameDateSetCancel()
 
     /**
      * Call by TrainlistFragment.
      */
     fun onNewPlanFinished()
-    fun onAddTrainSet(name:String,date:String)
+    fun onAddTrainSet()
 
     /**
      * Call by EditeTrainFragment
      */
-    fun onTrainSetEditConfirm()
-    fun onTrainSetEditCancel()
+    fun onTrainSetEditDone()
 }

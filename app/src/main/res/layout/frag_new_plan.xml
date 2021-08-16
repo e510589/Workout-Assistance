@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:visibility="visible">
 
     <ImageView
         android:id="@+id/imageview_weight_train"
@@ -17,7 +18,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.38"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/weight_train" />
+        app:srcCompat="@drawable/new_workout"
+        android:transitionName="service_trainsition"/>
 
     <TextView
         android:id="@+id/textview_new_plan"
