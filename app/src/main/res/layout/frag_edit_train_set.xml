@@ -8,13 +8,13 @@
     android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbarlayout_weighttrain_set"
+        android:id="@+id/appbarlayout_train_set"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/scrowview_weighttrain_set"
+        app:layout_constraintBottom_toTopOf="@+id/scrowview_train_set"
         android:paddingRight="20dp"
         android:background="@color/white">
 
@@ -29,16 +29,16 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
-        android:id="@+id/scrowview_weighttrain_set"
+        android:id="@+id/scrowview_train_set"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbarlayout_weighttrain_set">
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout_train_set">
 
         <LinearLayout
-            android:id="@+id/linearlayout_weighttrain_set"
+            android:id="@+id/linearlayout_train_set"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -118,20 +118,20 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativelayout_edit_move_times"
+                android:id="@+id/relativelayout_edit_move_cycles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_input_layout_move_times"
+                    android:id="@+id/text_input_layout_move_cycles"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/times"
+                    android:hint="@string/cycles"
                     android:padding="15dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/text_input_edit_move_times"
+                        android:id="@+id/text_input_edit_move_cycles"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -199,11 +199,33 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Weight set: 20-20-20-20-20"
+                    android:hint="@string/weight_set_hint"
                     android:padding="15dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_input_edit_weight_set"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:typeface="serif" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_edit_times_set"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_input_layout_times_set"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/times_set_hint"
+                    android:padding="15dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_input_edit_times_set"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="date"

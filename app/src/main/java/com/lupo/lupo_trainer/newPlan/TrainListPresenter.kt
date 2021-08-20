@@ -1,12 +1,11 @@
 package com.lupo.lupo_trainer.newPlan
 
 import android.util.Log
-import com.lupo.lupo_trainer.utils.data.TrainBase
-import com.lupo.lupo_trainer.utils.data.weightTrain.WeightTrainSet
+import com.lupo.lupo_trainer.utils.data.Train.TrainSet
 
 class TrainListPresenter(mView:TrainListConcract.EditView):TrainListConcract.Presenter {
 
-    private var trainSetList = ArrayList<TrainBase>()
+    private var trainSetList = ArrayList<TrainSet>()
 
 
     companion object{

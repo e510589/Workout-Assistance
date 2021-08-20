@@ -1,6 +1,9 @@
 package com.lupo.lupo_trainer.newPlan
 
-class EditeWeightTrainPresenter(editeView:EditWeightTrainContract.View):EditWeightTrainContract.Presenter {
+import com.lupo.lupo_trainer.utils.data.Train.TrainDataSource
+import com.lupo.lupo_trainer.utils.data.Train.TrainSet
+
+class EditeWeightTrainPresenter(val editeView:EditWeightTrainContract.View,val trainDataSource: TrainDataSource):EditWeightTrainContract.Presenter {
 
 
     companion object{
@@ -20,26 +23,36 @@ class EditeWeightTrainPresenter(editeView:EditWeightTrainContract.View):EditWeig
         dateTime: String,
         muscles: String,
         movesName: String,
-        times: String,
+        cycles: String,
         breakTime: String,
         equip: String,
         weightSet: String,
+        timesSet: String,
         callBack: OnSaveTrainSetCallBack
     ) {
-        if(muscles == "" || movesName =="" || times == "" ||breakTime =="" || equip == "" || weightSet == ""){
+        if(muscles == "" || movesName =="" || cycles == "" ||breakTime =="" || equip == "" || weightSet == ""||timesSet == ""){
             callBack.onSetNotAvailable("Please filled all the data page.")
             return
         }
 
-        val time = times.toInt()
+        val cycle = cycles.toInt()
 
-        if (checkWeightSet(time,weightSet)){
-            callBack.onSaved()
+        if (isSetsAvailable(cycle,weightSet) && isSetsAvailable(cycle,timesSet)){
+
+            trainDataSource.saveTrainSet(TrainSet(null,0,planName,dateTime,muscles,movesName,cycle,weightSet,timesSet,breakTime.toInt(),equip),
+                object : TrainDataSource.OnDataSavedCallBack {
+                    override fun onTrainSetSaved() {
+                        callBack.onSaved()
+                    }
+
+                    override fun onFailed() {
+                        callBack.onSetNotAvailable("Error while save to Room DB.")
+                    }
+                })
         }else{
-            callBack.onSetNotAvailable("Weightset format error!")
+            callBack.onSetNotAvailable("Weightsets or Timesets format error!")
             return
         }
-
     }
 
     override fun verifyCardioSet(
@@ -60,10 +73,10 @@ class EditeWeightTrainPresenter(editeView:EditWeightTrainContract.View):EditWeig
 
     }
 
-    fun checkWeightSet(times:Int, weightSet:String):Boolean{
+    fun isSetsAvailable(cycles:Int, sets:String):Boolean{
 
         var dashCount = 0;
-        for ( c in weightSet){
+        for ( c in sets){
             if (c.isLetter() || c.equals('.') || c.equals(' ') || c.equals(',')){
                 return false
             }
@@ -72,28 +85,17 @@ class EditeWeightTrainPresenter(editeView:EditWeightTrainContract.View):EditWeig
                 dashCount++
             }
         }
-        if (dashCount != times-1) return false
+        if (dashCount != cycles-1) return false
 
-        val sets = weightSet.split('-')
+        val sets = sets.split('-')
 
-        if (sets.size != times) return false
+        if (sets.size != cycles) return false
 
         return true
     }
+
+
 }
 
 fun main(){
-
-    val s = "20-78-20-36-66"
-
-    val o = object:EditWeightTrainContract.View{
-        override fun setPresenter(presenter: EditWeightTrainContract.Presenter) {
-        }
-    }
-
-    val e = EditeWeightTrainPresenter(o)
-
-    val res = e.checkWeightSet(4,s)
-    print(res)
-
 }

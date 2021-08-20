@@ -1,13 +1,17 @@
-package com.lupo.lupo_trainer.utils.data.weightTrain
+package com.lupo.lupo_trainer.utils.data.Train
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.lupo.lupo_trainer.utils.data.TrainBase
+import java.util.*
 
-@Entity(tableName = "WeightTrainList")
-data class WeightTrainSet(
+@Entity(tableName = "TrainList")
+data class TrainSet(
+
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
+    var id:Int? = null,
 
     @NonNull
     @ColumnInfo(name = "trainType")
@@ -28,12 +32,14 @@ data class WeightTrainSet(
     var movesName:String,
 
     @NonNull
-    @ColumnInfo(name = "times")
-    var times:Int,
-
+    @ColumnInfo(name = "cycles")
+    var cycles:Int,
 
     @ColumnInfo(name = "weightSets")
     var weightSet:String?,
+
+    @ColumnInfo(name = "timesSets")
+    var timesSets:String?,
 
     @ColumnInfo(name = "breakTime")
     var breakTime:Int?,
@@ -44,10 +50,7 @@ data class WeightTrainSet(
 
     @NonNull
     @ColumnInfo(name = "isDone")
-    var isDone:Boolean = false
+    var isDone:Boolean = false,
 
-):TrainBase{
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id:Int? = 0
-}
+)
+

@@ -17,12 +17,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import com.lupo.lupo_trainer.R
-import com.lupo.lupo_trainer.databinding.FragEditWeighttrainSetBinding
+import com.lupo.lupo_trainer.databinding.FragEditTrainSetBinding
+import com.lupo.lupo_trainer.databinding.FragTrainListBinding
 
 class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
 
 
-    private var _binding :FragEditWeighttrainSetBinding? = null
+    private var _binding :FragEditTrainSetBinding? = null
     private val binding get() = _binding!!
     private var mPresenter:EditWeightTrainContract.Presenter? = null
     private lateinit var planName:String
@@ -39,7 +40,6 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             when(item?.itemId){
                 R.id.save_set->{
-
                     when(binding.autoCompletetextviewTraintype.text.toString()){
 
                         types.get(0)->{
@@ -48,13 +48,14 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
                                 planDate,
                                 binding.autoCompletetextviewMuscles.text.toString(),
                                 binding.textInputEditMoveName.text.toString(),
-                                binding.textInputEditMoveTimes.text.toString(),
+                                binding.textInputEditMoveCycles.text.toString(),
                                 binding.textInputEditBreaksTime.text.toString(),
                                 binding.textInputEditEquip.text.toString(),
                                 binding.textInputEditWeightSet.text.toString(),
+                                binding.textInputEditTimesSet.text.toString(),
                                 object:OnSaveTrainSetCallBack{
                                     override fun onSaved() {
-                                        Toast.makeText(activity,"Train Set will be saved.",Toast.LENGTH_LONG).show()
+                                        Toast.makeText(activity,getString(R.string.train_set_will_be_saved),Toast.LENGTH_LONG).show()
                                         setFragmentResult(TrainListFragment.RESULT_KEY,
                                             bundleOf(TrainListFragment.RESULT_BUNDLE_KEY to TrainListFragment.RESULT_SET_DONE))
                                         val _activity = activity as NewPlanActivity
@@ -71,11 +72,11 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
                                 planName,
                                 planDate,
                                 binding.textInputEditMoveName.text.toString(),
-                                binding.textInputEditMoveTimes.text.toString(),
+                                binding.textInputEditMoveCycles.text.toString(),
                                 binding.textInputEditEquip.text.toString(),
                                 object:OnSaveTrainSetCallBack{
                                     override fun onSaved() {
-                                        Toast.makeText(activity,"Train Set will be saved.",Toast.LENGTH_LONG).show()
+                                        Toast.makeText(activity,getString(R.string.train_set_will_be_saved),Toast.LENGTH_LONG).show()
                                         setFragmentResult(TrainListFragment.RESULT_KEY,
                                             bundleOf(TrainListFragment.RESULT_BUNDLE_KEY to TrainListFragment.RESULT_SET_DONE))
                                         val _activity = activity as NewPlanActivity
@@ -86,14 +87,8 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
                                         Toast.makeText(activity,msg,Toast.LENGTH_LONG).show()
                                     }
                                 })
-
-
                         }
-
                     }
-
-
-
                     return true
                 }
                 R.id.cancel_train_set->{
@@ -133,7 +128,7 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragEditWeighttrainSetBinding.inflate(inflater,container,false)
+        _binding = FragEditTrainSetBinding.inflate(inflater,container,false)
         val rootView = binding.root
         val musAdapter = ArrayAdapter(requireContext(),R.layout.item_dropdown_list_muscle,muscles)
         binding.autoCompletetextviewMuscles.setAdapter(musAdapter)
@@ -148,12 +143,14 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
                     binding.relativelayoutEditMuscles.visibility = View.VISIBLE
                     binding.relativelayoutEditBreaksTime.visibility = View.VISIBLE
                     binding.relativelayoutEditWeightSet.visibility = View.VISIBLE
+                    binding.relativelayoutEditTimesSet.visibility = View.VISIBLE
                 }
                 1->{
                     Log.d(TAG,typeAdapter.getItem(1).toString() + " clicked!")
                     binding.relativelayoutEditMuscles.visibility = View.GONE
                     binding.relativelayoutEditBreaksTime.visibility = View.GONE
                     binding.relativelayoutEditWeightSet.visibility = View.GONE
+                    binding.relativelayoutEditTimesSet.visibility = View.GONE
                 }
                 else->{
 
@@ -165,7 +162,7 @@ class EditWeightTrainFragment : Fragment(),EditWeightTrainContract.View {
         binding.materialtoolbarEditTrain.setOnMenuItemClickListener(onMenuItemClicked)
 //        val map = requireArguments().get("MAP")!! as HashMap<String,String>
         this.planName = mViewModel.getName()
-        this.planDate = mViewModel.getName()
+        this.planDate = mViewModel.getDate()
 
         return rootView
     }

@@ -5,24 +5,8 @@ import android.os.Looper
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class AppExcutors{
+class AppExcutors(val diskIO:Executor = DiskIOThreadExecutor(),val mainThread:Executor = MainThreadExecutor()){
 
-    private val diskIO:Executor
-
-    private val mainThread: Executor
-
-    constructor(diskIO:Executor , mainThread:Executor){
-        this.diskIO = diskIO
-        this.mainThread = mainThread
-    }
-
-    fun getDiskIO():Executor{
-        return this.diskIO
-    }
-
-    fun getMainThread():Executor{
-        return this.mainThread
-    }
 
     companion object{
 

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.*
 import com.lupo.lupo_trainer.R
 import com.lupo.lupo_trainer.main.MainFragment
+import com.lupo.lupo_trainer.utils.data.Train.TrainDataSourceFactory
 
 class NewPlanActivity : AppCompatActivity(),IFragmentCallBack {
 
@@ -67,7 +68,7 @@ class NewPlanActivity : AppCompatActivity(),IFragmentCallBack {
             add(R.id.fragment_container_view_new_plan,weightSetFragment)
             addToBackStack(null)
         }
-        mEditeWeightTrainPresenter = EditeWeightTrainPresenter(weightSetFragment)
+        mEditeWeightTrainPresenter = EditeWeightTrainPresenter(weightSetFragment,TrainDataSourceFactory.creatDataSource(this))
     }
 
     override fun onTrainSetEditDone() {

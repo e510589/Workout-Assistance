@@ -17,12 +17,15 @@
     <string name="current_plan_will_be_cancel">Current plan will be cancel!</string>
     <string name="moves_name">Moves Name</string>
     <string name="muscles">Muscles</string>
-    <string name="times">Times</string>
+    <string name="cycles">Cycles</string>
     <string name="weight_set">Weight Set</string>
     <string name="break_time">Break Time</string>
     <string name="equipment">Equipment</string>
     <string name="cardio_moves_name">Cardio Moves Name</string>
     <string name="trainning_type">Trainning Type</string>
+    <string name="train_set_will_be_saved">Train Set will be saved</string>
+    <string name="times_set_hint">Times set: 20-20-20-20-20</string>
+    <string name="weight_set_hint">Weight set: 20-20-20-20-20</string>
 
     <string-array name="muscles_list">
         <item>CHEST</item>
